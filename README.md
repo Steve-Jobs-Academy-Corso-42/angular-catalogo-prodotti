@@ -1,59 +1,49 @@
-# CatalogoProdotti
+# Catalogo prodotti
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.2.
+Piccola applicazione didattica per visualizzare un catalogo, filtrare i prodotti
+disponibili e consultare i dettagli di ogni prodotto.
 
-## Development server
+## Funzionalità
 
-To start a local development server, run:
+- Filtro per mostrare o nascondere i prodotti non disponibili.
+- Schede prodotto con descrizione, prezzo, disponibilità e data di inserimento.
+- Pulsante di esempio che dimostra la comunicazione tra componenti tramite eventi.
+- Interfaccia responsive realizzata con Tailwind CSS e un tema personalizzato.
 
-```bash
-ng serve
-```
+## Tecnologie
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Angular 22
+- TypeScript
+- Tailwind CSS 4
 
-## Code scaffolding
+## Requisiti
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Node.js e npm compatibili con la versione di Angular CLI del progetto.
 
-```bash
-ng generate component component-name
-```
+## Avvio in locale
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Installa le dipendenze e avvia il server di sviluppo:
 
 ```bash
-ng build
+npm install
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Apri [http://localhost:4200](http://localhost:4200). L'applicazione si aggiorna
+automaticamente quando vengono modificati i file sorgente.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Build e test
 
 ```bash
-ng test
+npm run build
+npm test
 ```
 
-## Running end-to-end tests
+La build di produzione viene generata nella cartella `dist/`.
 
-For end-to-end (e2e) testing, run:
+## Struttura del progetto
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `src/app/catalogo/`: pagina del catalogo e filtro disponibilità.
+- `src/app/prodotto/`: scheda riutilizzabile per i singoli prodotti.
+- `src/app/types/`: tipi condivisi.
+- `src/styles/`: tema Tailwind e stili globali di base.

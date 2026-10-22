@@ -1,0 +1,27 @@
+<div class="w-full max-w-xs flex-1 rounded-2xl border border-line bg-white p-5 shadow-sm">
+  <h2 class="mb-2 text-lg font-semibold text-brand">{{ prodotto().titolo }}</h2>
+  <p class="my-1 text-sm leading-relaxed text-muted">{{ prodotto().descrizione }}</p>
+  <p class="mt-4 font-bold text-ink">Prezzo: {{ prodotto().prezzo | currency: 'USD' }}</p>
+  <p class="mt-1 text-sm text-muted">
+    Disponibile:
+    <span
+      class="font-semibold"
+      [class.text-green-500]="prodotto().disponibile"
+      [class.text-red-500]="!prodotto().disponibile"
+    >
+      {{ prodotto().disponibile ? 'Sì' : 'No' }}
+    </span>
+  </p>
+
+  <p class="mt-1 text-sm text-muted">
+    Data di inserimento: {{ prodotto().dataInserimento | date: 'dd-MM-yyyy' }}
+  </p>
+
+  <button
+    type="button"
+    class="w-full mt-4 inline-flex items-center justify-center rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+    (click)="seleziona()"
+  >
+    Cambia Titolo
+  </button>
+</div>

@@ -1,0 +1,5 @@
+@layer base {
+  body {
+    @apply m-0 min-w-80 bg-page font-sans text-ink;
+  }
+}

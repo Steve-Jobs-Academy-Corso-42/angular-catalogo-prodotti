@@ -1,0 +1,14 @@
+@theme {
+  --color-page: #f7f6f0;
+  --color-ink: #26352d;
+  --color-brand: #285b45;
+  --color-muted: #68736b;
+  --color-line: #e4e7dc;
+  --font-sans: 'Avenir Next', 'Segoe UI', ui-sans-serif, sans-serif;
+  --font-display: 'Avenir Next', 'Segoe UI', ui-sans-serif, sans-serif;
+  --breakpoint-sm: 36rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+}

@@ -1,0 +1,24 @@
+<h1
+  class="px-4 pb-4 pt-8 text-center font-display text-3xl font-bold tracking-widest text-brand md:text-4xl"
+>
+  CATALOGO
+</h1>
+
+<label
+  class="mx-auto flex w-fit cursor-pointer items-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm font-medium text-ink shadow-sm transition-colors hover:border-brand/40"
+>
+  <input
+    type="checkbox"
+    class="size-4 cursor-pointer accent-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+    [(ngModel)]="showDisponibili"
+  />
+  Mostra solo prodotti disponibili
+</label>
+
+<div class="flex flex-wrap justify-center gap-4 p-4 xl:gap-6">
+  @for (prodotto of prodotti; track prodotto.id) {
+    @if (!showDisponibili || prodotto.disponibile) {
+      <app-prodotto [prodotto]="prodotto" (selezionato)="selezionaProdotto($event)"></app-prodotto>
+    }
+  }
+</div>
