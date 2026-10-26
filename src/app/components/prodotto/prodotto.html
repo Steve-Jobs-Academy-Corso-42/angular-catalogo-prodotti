@@ -1,3 +1,4 @@
+<!-- La scheda presenta i dati formattati del prodotto e notifica l'azione di eliminazione. -->
 <div class="w-full max-w-xs flex-1 rounded-2xl border border-line bg-white p-5 shadow-sm">
   <h2 class="mb-2 text-lg font-semibold text-brand">{{ prodotto().titolo }}</h2>
   <p class="my-1 text-sm leading-relaxed text-muted">{{ prodotto().descrizione }}</p>
@@ -18,10 +19,18 @@
   </p>
 
   <button
+    [routerLink]="['dettaglio-prodotto/', prodotto().id]"
     type="button"
     class="w-full mt-4 inline-flex items-center justify-center rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-    (click)="seleziona()"
   >
-    Cambia Titolo
+    Apri
+  </button>
+
+  <button
+    type="button"
+    class="w-full mt-4 inline-flex items-center justify-center rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+    (click)="elimina()"
+  >
+    Elimina
   </button>
 </div>

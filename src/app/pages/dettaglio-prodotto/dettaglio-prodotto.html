@@ -1,0 +1,53 @@
+<!-- Contenitore centrale con spaziature responsive per mantenere leggibile il dettaglio. -->
+<main class="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 lg:py-14">
+  @if (!!prodotto) {
+    <!-- La card separa le informazioni del prodotto e mette in risalto il prezzo. -->
+    <article class="overflow-hidden rounded-3xl border border-line bg-white shadow-sm">
+      <div class="h-2 bg-brand"></div>
+
+      <div class="p-6 sm:p-10">
+        <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-muted">
+          Dettaglio prodotto
+        </p>
+        <h1 class="font-display text-3xl font-bold tracking-tight text-brand sm:text-4xl">
+          {{ prodotto.titolo }}
+        </h1>
+        <p class="mt-4 max-w-2xl text-base leading-7 text-muted sm:text-lg">
+          {{ prodotto.descrizione }}
+        </p>
+
+        <div class="mt-8 border-t border-line pt-6">
+          <p class="text-sm font-medium text-muted">Prezzo</p>
+          <p class="mt-1 text-3xl font-bold text-ink">
+            {{ prodotto.prezzo / 100 }}
+          </p>
+        </div>
+
+        <!-- RouterLink torna al catalogo senza ricaricare l'applicazione. -->
+        <a
+          routerLink="/"
+          class="mt-8 inline-flex items-center justify-center rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+        >
+          Torna al catalogo
+        </a>
+      </div>
+    </article>
+} @else {
+    <!-- Stato alternativo mostrato quando l'id della route non corrisponde a un prodotto. -->
+    <section class="rounded-3xl border border-line bg-white px-6 py-12 text-center shadow-sm sm:px-10">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-muted">
+        Prodotto non disponibile
+      </p>
+      <h1 class="mt-3 font-display text-3xl font-bold text-brand">Prodotto non trovato</h1>
+      <p class="mx-auto mt-3 max-w-lg leading-7 text-muted">
+        Il prodotto richiesto potrebbe essere stato rimosso o il collegamento potrebbe non essere valido.
+      </p>
+      <a
+        routerLink="/"
+        class="mt-7 inline-flex items-center justify-center rounded-lg border border-brand px-5 py-3 text-sm font-semibold text-brand transition-colors hover:bg-brand hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+      >
+        Torna al catalogo
+      </a>
+    </section>
+  }
+</main>

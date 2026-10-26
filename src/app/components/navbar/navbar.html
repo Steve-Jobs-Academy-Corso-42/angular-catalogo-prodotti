@@ -1,0 +1,32 @@
+<header class="border-b border-line bg-white">
+  <nav
+    aria-label="Navigazione principale"
+    class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6"
+  >
+    <!-- RouterLink naviga senza ricaricare l'applicazione Angular. -->
+    <a routerLink="/" class="font-display text-lg font-bold tracking-wide text-brand">
+      Catalogo prodotti
+    </a>
+
+    <div class="flex items-center gap-2">
+      <!-- La route esatta evita che il Catalogo risulti attivo anche nella pagina Carrello. -->
+      <a
+        routerLink="/"
+        routerLinkActive="font-semibold text-brand"
+        [routerLinkActiveOptions]="{ exact: true }"
+        ariaCurrentWhenActive="page"
+        class="rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:text-brand"
+      >
+        Catalogo
+      </a>
+      <a
+        routerLink="/carrello"
+        routerLinkActive="font-semibold text-brand"
+        ariaCurrentWhenActive="page"
+        class="rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:text-brand"
+      >
+        Carrello
+      </a>
+    </div>
+  </nav>
+</header>
