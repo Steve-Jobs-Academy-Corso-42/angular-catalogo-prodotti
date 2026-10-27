@@ -1,26 +1,67 @@
-<h1
-  class="px-4 pb-4 pt-8 text-center font-display text-3xl font-bold tracking-widest text-brand md:text-4xl"
->
-  CATALOGO
-</h1>
+<main class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+  <header class="mb-6 text-center sm:mb-8">
+    <h1 class="font-display text-3xl font-bold tracking-wide text-brand sm:text-4xl">Catalogo</h1>
+    <p class="mt-2 text-sm text-muted sm:text-base">Scopri i prodotti disponibili.</p>
+  </header>
 
-<!-- Il checkbox aggiorna il filtro della pagina tramite il binding ngModel. -->
-<label
-  class="mx-auto flex w-fit cursor-pointer items-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm font-medium text-ink shadow-sm transition-colors hover:border-brand/40"
->
-  <input
-    type="checkbox"
-    class="size-4 cursor-pointer accent-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-    [(ngModel)]="showDisponibili"
-  />
-  Mostra solo prodotti disponibili
-</label>
-
-<div class="flex flex-wrap justify-center gap-4 p-4 xl:gap-6">
-  <!-- Ogni scheda usa l'id come chiave e inoltra l'evento di eliminazione alla pagina. -->
-  @for (prodotto of prodottiService.prodotti$(); track prodotto.id) {
-    @if (!showDisponibili || prodotto.disponibile) {
-      <app-prodotto [prodotto]="prodotto" (eliminato)="eliminaProdotto($event)"></app-prodotto>
-    }
+  <!-- I signal sono funzioni: () legge il valore aggiornato e fa reagire il template ai cambiamenti. -->
+  @if (prodottiService.error$()) {
+    <!-- role="alert" annuncia subito il messaggio alle tecnologie assistive. -->
+    <section
+      role="alert"
+      class="mx-auto max-w-xl rounded-2xl border border-red-200 bg-red-50 p-5 text-center sm:p-8"
+    >
+      <h2 class="text-lg font-semibold text-red-900 sm:text-xl">Catalogo non disponibile</h2>
+      <p class="mt-2 text-sm leading-6 text-red-800 sm:text-base">
+        Non siamo riusciti a caricare i prodotti. Controlla la connessione e riprova.
+      </p>
+      <!-- Il click ripete la richiesta; fetchProducts azzera l'errore e riattiva loading. -->
+      <button
+        type="button"
+        class="mt-5 min-h-11 w-full rounded-lg bg-red-800 px-5 py-3 text-sm font-semibold text-white hover:bg-red-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 sm:w-auto"
+        (click)="prodottiService.fetchProducts()"
+      >
+        Riprova
+      </button>
+    </section>
+  } @else if (prodottiService.loading$()) {
+    <!-- aria-live annuncia il cambio di stato; role=status indica un aggiornamento non urgente. -->
+    <section
+      role="status"
+      aria-live="polite"
+      [attr.aria-busy]="prodottiService.loading$()"
+      class="flex min-h-52 flex-col items-center justify-center gap-4 rounded-2xl border border-line bg-white p-6 text-center shadow-sm"
+    >
+      <span
+        aria-hidden="true"
+        class="size-9 animate-spin rounded-full border-4 border-line border-t-brand"
+      ></span>
+      <p class="text-sm font-medium text-muted sm:text-base">Caricamento dei prodotti...</p>
+    </section>
+  } @else if (prodottiService.prodotti$().length === 0) {
+    <!-- Stato vuoto: la richiesta è terminata, ma non ci sono prodotti da mostrare. -->
+    <section class="rounded-2xl border border-line bg-white p-6 text-center shadow-sm sm:p-10">
+      <h2 class="text-lg font-semibold text-ink sm:text-xl">Nessun prodotto nel catalogo</h2>
+      <p class="mt-2 text-sm text-muted sm:text-base">Riprova a caricare il catalogo.</p>
+      <button
+        type="button"
+        class="mt-5 min-h-11 w-full rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:w-auto"
+        (click)="prodottiService.fetchProducts()"
+      >
+        Ricarica prodotti
+      </button>
+    </section>
+  } @else {
+    <!-- La griglia parte da una colonna su mobile e ne aggiunge altre quando c'è più spazio. -->
+    <section
+      aria-label="Elenco prodotti"
+      class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4"
+    >
+      <!-- @for crea una scheda per ogni prodotto; track id aiuta Angular a riusare le schede corrette. -->
+      @for (prodotto of prodottiService.prodotti$(); track prodotto.id) {
+        <!-- [] passa i dati alla scheda; () ascolta l'evento che la scheda invia al genitore. -->
+        <app-prodotto [prodotto]="prodotto" (eliminato)="eliminaProdotto($event)"></app-prodotto>
+      }
+    </section>
   }
-</div>
+</main>

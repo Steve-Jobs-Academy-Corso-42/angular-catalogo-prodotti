@@ -1,36 +1,36 @@
-<!-- La scheda presenta i dati formattati del prodotto e notifica l'azione di eliminazione. -->
-<div class="w-full max-w-xs flex-1 rounded-2xl border border-line bg-white p-5 shadow-sm">
-  <h2 class="mb-2 text-lg font-semibold text-brand">{{ prodotto().titolo }}</h2>
-  <p class="my-1 text-sm leading-relaxed text-muted">{{ prodotto().descrizione }}</p>
-  <p class="mt-4 font-bold text-ink">Prezzo: {{ prodotto().prezzo | currency: 'USD' }}</p>
-  <p class="mt-1 text-sm text-muted">
-    Disponibile:
-    <span
-      class="font-semibold"
-      [class.text-green-500]="prodotto().disponibile"
-      [class.text-red-500]="!prodotto().disponibile"
-    >
-      {{ prodotto().disponibile ? 'Sì' : 'No' }}
-    </span>
+<!-- h-full aiuta le schede nella stessa riga della griglia ad avere la stessa altezza. -->
+<article class="flex h-full flex-col rounded-2xl border border-line bg-white p-4 shadow-sm sm:p-5">
+  <!-- [] collega un attributo HTML a un valore TypeScript; alt descrive l'immagine a chi non la vede. -->
+  <img
+    [src]="prodotto().image"
+    [alt]="prodotto().title"
+    class="mb-4 h-48 w-full rounded-xl bg-page p-5 object-contain sm:h-52"
+  />
+
+  <!-- Le doppie parentesi interpolano il titolo; line-clamp limita le righe per uniformare le card. -->
+  <h2 class="line-clamp-2 text-base font-semibold text-brand sm:text-lg">{{ prodotto().title }}</h2>
+  <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">
+    {{ prodotto().description }}
+  </p>
+  <!-- CurrencyPipe trasforma un numero in un importo leggibile; flex-grow spinge i pulsanti in basso. -->
+  <p class="mt-4 flex-grow font-bold text-ink">
+    Prezzo: {{ prodotto().price | currency: 'USD' }}
   </p>
 
-  <p class="mt-1 text-sm text-muted">
-    Data di inserimento: {{ prodotto().dataInserimento | date: 'dd-MM-yyyy' }}
-  </p>
-
-  <button
-    [routerLink]="['dettaglio-prodotto/', prodotto().id]"
-    type="button"
-    class="w-full mt-4 inline-flex items-center justify-center rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+  <!-- routerLink genera un link interno al dettaglio usando l'id del prodotto corrente. -->
+  <a
+    [routerLink]="['/dettaglio-prodotto', prodotto().id]"
+    class="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-brand px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
   >
-    Apri
-  </button>
+    Apri dettaglio
+  </a>
 
+  <!-- (click) ascolta l'azione dell'utente; elimina() invia il prodotto al componente genitore. -->
   <button
     type="button"
-    class="w-full mt-4 inline-flex items-center justify-center rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+    class="mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-line px-4 py-3 text-sm font-semibold text-ink transition-colors hover:border-brand hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
     (click)="elimina()"
   >
     Elimina
   </button>
-</div>
+</article>

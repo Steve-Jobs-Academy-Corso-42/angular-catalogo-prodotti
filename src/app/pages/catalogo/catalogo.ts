@@ -1,24 +1,27 @@
 import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Prodotto } from '../../components/prodotto/prodotto';
 import { ProdottoInterface } from '../../types/prodotto';
 import { ProductsService } from '../../services/products.service';
 
 @Component({
-  // La pagina riutilizza la scheda prodotto e il modulo per il filtro a checkbox.
-  imports: [Prodotto, FormsModule],
+  // imports rende utilizzabile nel template la scheda figlia app-prodotto.
+  imports: [Prodotto],
+  // selector è il nome del tag HTML associato a questa pagina.
   selector: 'app-catalogo',
   templateUrl: './catalogo.html',
 })
 export class Catalogo {
-  /** Indica se mostrare tutti i prodotti oppure solo quelli disponibili. */
-  showDisponibili = true;
+  /** Angular fornisce il service condiviso che carica e modifica l'elenco dei prodotti. */
+  readonly prodottiService = inject(ProductsService);
 
-  /** Service che fornisce il catalogo e ne gestisce le modifiche; i dati restano in memoria. */
-  prodottiService = inject(ProductsService);
-
-  /** Chiede al service di rimuovere dal catalogo il prodotto selezionato. */
+  /** Riceve dalla scheda il prodotto scelto e delega al service la rimozione dal catalogo. */
   eliminaProdotto(prodotto: ProdottoInterface) {
     this.prodottiService.removeProduct(prodotto.id);
+  }
+
+  /** ngOnInit è chiamato da Angular una volta, quando la pagina viene inizializzata. */
+  ngOnInit() {
+    // La pagina chiede al service i dati; il service gestisce richiesta e stato condiviso.
+    this.prodottiService.fetchProducts();
   }
 }

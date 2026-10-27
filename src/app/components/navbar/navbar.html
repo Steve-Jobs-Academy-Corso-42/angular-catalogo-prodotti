@@ -1,21 +1,24 @@
 <header class="border-b border-line bg-white">
+  <!-- nav identifica semanticamente i collegamenti usati per spostarsi tra le pagine. -->
   <nav
     aria-label="Navigazione principale"
-    class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6"
+    class="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6"
   >
-    <!-- RouterLink naviga senza ricaricare l'applicazione Angular. -->
+    <!-- routerLink cambia URL usando Angular Router, senza ricaricare l'intero sito dal server. -->
     <a routerLink="/" class="font-display text-lg font-bold tracking-wide text-brand">
       Catalogo prodotti
     </a>
 
-    <div class="flex items-center gap-2">
-      <!-- La route esatta evita che il Catalogo risulti attivo anche nella pagina Carrello. -->
+    <div class="flex w-full items-center gap-2 sm:w-auto">
+      <!-- routerLinkActive applica classi quando il link corrisponde alla pagina corrente.
+           exact: true richiede una corrispondenza completa, così "/" non resta attivo su "/carrello". -->
+      <!-- ariaCurrentWhenActive comunica ai lettori di schermo quale link indica la pagina attiva. -->
       <a
         routerLink="/"
         routerLinkActive="font-semibold text-brand"
         [routerLinkActiveOptions]="{ exact: true }"
         ariaCurrentWhenActive="page"
-        class="rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:text-brand"
+        class="min-h-11 flex-1 rounded-lg px-3 py-2 text-center text-sm text-muted transition-colors hover:text-brand sm:flex-none"
       >
         Catalogo
       </a>
@@ -23,7 +26,7 @@
         routerLink="/carrello"
         routerLinkActive="font-semibold text-brand"
         ariaCurrentWhenActive="page"
-        class="rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:text-brand"
+        class="min-h-11 flex-1 rounded-lg px-3 py-2 text-center text-sm text-muted transition-colors hover:text-brand sm:flex-none"
       >
         Carrello
       </a>

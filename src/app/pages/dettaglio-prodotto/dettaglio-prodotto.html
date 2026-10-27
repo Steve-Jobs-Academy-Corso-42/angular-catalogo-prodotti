@@ -1,53 +1,102 @@
-<!-- Contenitore centrale con spaziature responsive per mantenere leggibile il dettaglio. -->
-<main class="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 lg:py-14">
-  @if (!!prodotto) {
-    <!-- La card separa le informazioni del prodotto e mette in risalto il prezzo. -->
-    <article class="overflow-hidden rounded-3xl border border-line bg-white shadow-sm">
-      <div class="h-2 bg-brand"></div>
+<!-- Il padding mobile è la base; da tablet in su aumenta lo spazio laterale e verticale. -->
+<main class="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8 lg:py-14">
+  <!-- @let salva il valore del signal in una variabile riutilizzabile nel template. -->
+  @let dettaglio = state();
 
-      <div class="p-6 sm:p-10">
-        <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-muted">
-          Dettaglio prodotto
+  <!-- @switch legge status e mostra un solo contenuto: caricamento, errore, successo o 404. -->
+  @switch (dettaglio.status) {
+    @case ('loading') {
+      <!-- role=status annuncia il caricamento senza interrompere chi usa tecnologie assistive. -->
+      <section
+        role="status"
+        aria-live="polite"
+        class="flex min-h-52 flex-col items-center justify-center gap-4 rounded-2xl border border-line bg-white p-6 text-center shadow-sm"
+      >
+        <span
+          aria-hidden="true"
+          class="size-9 animate-spin rounded-full border-4 border-line border-t-brand"
+        ></span>
+        <p class="text-sm font-medium text-muted sm:text-base">Caricamento del prodotto...</p>
+      </section>
+    }
+    @case ('error') {
+      <!-- L'errore di rete è diverso dal 404; role=alert lo annuncia subito agli utenti. -->
+      <section
+        role="alert"
+        class="mx-auto max-w-xl rounded-2xl border border-red-200 bg-red-50 p-5 text-center sm:p-8"
+      >
+        <h1 class="text-lg font-semibold text-red-900 sm:text-xl">Impossibile caricare il prodotto</h1>
+        <p class="mt-2 text-sm leading-6 text-red-800 sm:text-base">
+          Controlla la connessione e torna al catalogo; da lì potrai riaprire il prodotto.
         </p>
-        <h1 class="font-display text-3xl font-bold tracking-tight text-brand sm:text-4xl">
-          {{ prodotto.titolo }}
-        </h1>
-        <p class="mt-4 max-w-2xl text-base leading-7 text-muted sm:text-lg">
-          {{ prodotto.descrizione }}
-        </p>
-
-        <div class="mt-8 border-t border-line pt-6">
-          <p class="text-sm font-medium text-muted">Prezzo</p>
-          <p class="mt-1 text-3xl font-bold text-ink">
-            {{ prodotto.prezzo / 100 }}
-          </p>
-        </div>
-
-        <!-- RouterLink torna al catalogo senza ricaricare l'applicazione. -->
         <a
           routerLink="/"
-          class="mt-8 inline-flex items-center justify-center rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          class="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-red-800 px-5 py-3 text-sm font-semibold text-white hover:bg-red-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 sm:w-auto"
         >
           Torna al catalogo
         </a>
-      </div>
-    </article>
-} @else {
-    <!-- Stato alternativo mostrato quando l'id della route non corrisponde a un prodotto. -->
-    <section class="rounded-3xl border border-line bg-white px-6 py-12 text-center shadow-sm sm:px-10">
-      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-muted">
-        Prodotto non disponibile
-      </p>
-      <h1 class="mt-3 font-display text-3xl font-bold text-brand">Prodotto non trovato</h1>
-      <p class="mx-auto mt-3 max-w-lg leading-7 text-muted">
-        Il prodotto richiesto potrebbe essere stato rimosso o il collegamento potrebbe non essere valido.
-      </p>
-      <a
-        routerLink="/"
-        class="mt-7 inline-flex items-center justify-center rounded-lg border border-brand px-5 py-3 text-sm font-semibold text-brand transition-colors hover:bg-brand hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+      </section>
+    }
+    @case ('success') {
+      <!-- La card impila immagine e testo su mobile; da tablet dispone i contenuti in due colonne. -->
+      <article class="overflow-hidden rounded-2xl border border-line bg-white shadow-sm sm:rounded-3xl md:grid md:grid-cols-2">
+        <div class="flex min-h-64 items-center justify-center bg-page p-6 sm:min-h-80 sm:p-8 md:min-h-full">
+          <img
+            [src]="dettaglio.prodotto.image"
+            [alt]="dettaglio.prodotto.title"
+            class="max-h-80 w-full max-w-sm object-contain sm:max-h-96"
+          />
+        </div>
+
+        <!-- Nel caso success l'unione garantisce che il campo prodotto sia presente. -->
+        <div class="p-5 sm:p-8 lg:p-10">
+          <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-muted">
+            Dettaglio prodotto
+          </p>
+          <h1 class="break-words font-display text-2xl font-bold tracking-tight text-brand sm:text-3xl lg:text-4xl">
+            {{ dettaglio.prodotto.title }}
+          </h1>
+          <p class="mt-4 text-sm leading-7 text-muted sm:text-base lg:text-lg">
+            {{ dettaglio.prodotto.description }}
+          </p>
+
+          <div class="mt-6 border-t border-line pt-5 sm:mt-8 sm:pt-6">
+            <p class="text-sm font-medium text-muted">Prezzo</p>
+            <p class="mt-1 text-2xl font-bold text-ink sm:text-3xl">
+              {{ dettaglio.prodotto.price }}
+            </p>
+          </div>
+
+          <a
+            routerLink="/"
+            class="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:mt-8 sm:w-auto"
+          >
+            Torna al catalogo
+          </a>
+        </div>
+      </article>
+    }
+    @case ('not-found') {
+      <!-- Il 404 significa che l'id non corrisponde a un prodotto, non che la rete non funziona. -->
+      <section
+        role="status"
+        class="rounded-2xl border border-line bg-white px-5 py-10 text-center shadow-sm sm:rounded-3xl sm:px-10 sm:py-12"
       >
-        Torna al catalogo
-      </a>
-    </section>
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-muted">
+          Prodotto non disponibile
+        </p>
+        <h1 class="mt-3 font-display text-3xl font-bold text-brand">Prodotto non trovato</h1>
+        <p class="mx-auto mt-3 max-w-lg leading-7 text-muted">
+          Il prodotto richiesto potrebbe essere stato rimosso o il collegamento potrebbe non essere
+          valido.
+        </p>
+        <a
+          routerLink="/"
+          class="mt-7 inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-brand px-5 py-3 text-sm font-semibold text-brand transition-colors hover:bg-brand hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:w-auto"
+        >
+          Torna al catalogo
+        </a>
+      </section>
+    }
   }
 </main>
